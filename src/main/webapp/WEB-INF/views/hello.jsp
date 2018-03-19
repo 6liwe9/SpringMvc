@@ -20,12 +20,7 @@
   </body>
    <script type="text/javascript">
 
-   $(${message}).each(function(i,a){
-	 
-	   alert(a.a);
-	   alert(a.b);
-   });
-   
+ 
    $(function(){
        setInterval(getLoc,1000);
     });
