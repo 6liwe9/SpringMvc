@@ -21,26 +21,33 @@ public final class UploadPicController {
 	@RequestMapping(value = "upload.action", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> upload(HttpServletRequest request, @RequestParam("description") String description,
-			@RequestParam("file") List<MultipartFile> fileList) throws Exception {
+			@RequestParam("file") List<MultipartFile> fileList)  {
 
-		System.out.println(description);
-		for(MultipartFile file:fileList) {
-		// 如果文件不为空，写入上传路径
-		if (!file.isEmpty()) {
-			// 上传文件路径
-			String path = request.getServletContext().getRealPath("/images/");
-			// 上传文件名
-			String filename = file.getOriginalFilename();
-			File filepath = new File(path, filename);
-			// 判断路径是否存在，如果不存在就创建一个
-			if (!filepath.getParentFile().exists()) {
-				filepath.getParentFile().mkdirs();
+		HashMap ret= new HashMap<String,String>();
+		for (MultipartFile file : fileList) {
+			// 如果文件不为空，写入上传路径
+			if (!file.isEmpty()) {
+				try {
+				// 上传文件路径
+				String path = request.getServletContext().getRealPath("/images/");
+				// 上传文件名
+				String filename = file.getOriginalFilename();
+				File filepath = new File(path, filename);
+				// 判断路径是否存在，如果不存在就创建一个
+				if (!filepath.getParentFile().exists()) {
+					filepath.getParentFile().mkdirs();
+				}
+				// 将上传文件保存到一个目标文件当中
+				file.transferTo(new File(path + File.separator + filename));
+				}catch(Exception e) {
+					
+					ret.put("done", "false");
+					ret.put("errorMsg", e.getMessage());
+					return ret;
+				}
 			}
-			// 将上传文件保存到一个目标文件当中
-			file.transferTo(new File(path + File.separator + filename));
 		}
-		}return null;
-			
+		return null;
 
 	}
 

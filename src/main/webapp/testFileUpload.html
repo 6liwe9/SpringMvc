@@ -41,6 +41,7 @@ divCnt=1;
 $('#delgroup').click(function(e){
 	if(divCnt>1){
 		$(this).closest('div').remove();
+		divCnt-=1;
 	}else{
 		$a=$(this).closest('div')
 		$a.find(':file').val('');
@@ -50,11 +51,7 @@ $('#delgroup').click(function(e){
 	 
 	});
 $('#newgroup').click(function(e){
-	$a=$('#groupdiv').clone(true);
-	$a.find(':file').val('');
-	$a.find('#preview').empty();
-	$a.find('#preview').removeClass();
-    $(this).prev('div').after($a);
+    $(this).prev('div').after($clonediv.clone(true));
     divCnt+=1;
   
 });
@@ -72,6 +69,7 @@ $("[name='uploadFile']").change(function(e){
     	$div.empty().append($img);
     }
 });
+$clonediv=$('#groupdiv').clone(true);
 function uploadPic(){
 	var fileList=[];
    /*  var pic = $('#upload_file')[0].files[0];*/ 
