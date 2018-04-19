@@ -4,8 +4,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -50,14 +52,48 @@ public final class UploadPicController {
 		return null;
 
 	}
-
-	@RequestMapping(value = "upload1.action", method = RequestMethod.POST)
+	@RequestMapping("wx_upload.do")
 	@ResponseBody
-	public Map<String, String> upload1(HttpServletRequest request, @RequestParam("description") String description)
-			throws Exception {
-
-		System.out.println(description);
+	public  Map<String, String> wx_upload(HttpServletRequest request,@RequestParam("file") List<MultipartFile> fileList, HttpServletResponse response) throws Exception {
+		HashMap ret= new HashMap<String,String>();
+		for (MultipartFile file : fileList) {
+			// 如果文件不为空，写入上传路径
+			if (!file.isEmpty()) {
+				try {
+				// 上传文件路径
+				String path = request.getServletContext().getRealPath("/wximages/");
+				// 上传文件名
+				String filename = file.getOriginalFilename();
+				File filepath = new File(path, filename);
+				// 判断路径是否存在，如果不存在就创建一个
+				if (!filepath.getParentFile().exists()) {
+					filepath.getParentFile().mkdirs();
+				}
+				
+				// 将上传文件保存到一个目标文件当中
+				file.transferTo(new File(path + File.separator + filename));
+				ret.put("done", "true");
+				return ret;
+				}catch(Exception e) {
+					ret.put("done", "false");
+					ret.put("errorMsg", e.getMessage());
+					return ret;
+				}
+			}
+		}
 		return null;
+
+	 
+	    
+	}
+	@RequestMapping(value = "wx_cover.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> getCover(HttpServletRequest request)
+			throws Exception {
+		Map<String,String> ret=new ConcurrentHashMap<String,String>();
+		String url=request.getScheme()+"://"+request.getServerName()+request.getContextPath()+"/wximages/test1.jpg";
+		ret.put("imageUrl", url);
+		return ret;
 
 	}
 }
