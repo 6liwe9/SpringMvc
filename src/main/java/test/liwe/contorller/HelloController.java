@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+
 @Controller
 @RequestMapping("/")
 public final class HelloController {
-
+   Gson gson=new Gson();
 	@RequestMapping(value="a.action")
     public String hello(HttpServletRequest request,ModelMap  model){
 		System.out.println("test");

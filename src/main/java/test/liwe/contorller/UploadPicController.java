@@ -1,6 +1,7 @@
 package test.liwe.contorller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+
 @Controller
 @RequestMapping("/")
 public final class UploadPicController {
+	Gson gosn=new Gson();
 	@RequestMapping(value = "upload.action", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> upload(HttpServletRequest request, @RequestParam("description") String description,
@@ -93,6 +97,21 @@ public final class UploadPicController {
 		Map<String,String> ret=new ConcurrentHashMap<String,String>();
 		String url=request.getScheme()+"://"+request.getServerName()+request.getContextPath()+"/wximages/test1.jpg";
 		ret.put("imageUrl", url);
+		return ret;
+
+	}
+	@RequestMapping(value = "wx_image.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getImage(HttpServletRequest request)
+			throws Exception {
+		
+		Map<String,Object> ret=new ConcurrentHashMap<String,Object>();
+		List<String> urls=new ArrayList<String>();
+		for(int i=1;i<8;i++) {
+			String url=request.getScheme()+"://"+request.getServerName()+"/wximages/"+i+".jpg";
+			urls.add(url);
+		}
+		ret.put("imageUrl", urls);
 		return ret;
 
 	}
