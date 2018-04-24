@@ -41,6 +41,7 @@ divCnt=1;
 $('#delgroup').click(function(e){
 	if(divCnt>1){
 		$(this).closest('div').remove();
+		divCnt-=1;
 	}else{
 		$a=$(this).closest('div')
 		$a.find(':file').val('');
@@ -50,11 +51,15 @@ $('#delgroup').click(function(e){
 	 
 	});
 $('#newgroup').click(function(e){
+<<<<<<< HEAD
 	/* $a=$('#groupdiv').clone(true);
 	$a.find(':file').val('');
 	$a.find('#preview').empty();
 	$a.find('#preview').removeClass(); */
     $(this).prev('div').after($div.clone(true));
+=======
+    $(this).prev('div').after($clonediv.clone(true));
+>>>>>>> refs/remotes/origin/master
     divCnt+=1;
   
 });
@@ -72,7 +77,11 @@ $("[name='uploadFile']").change(function(e){
     	$div.empty().append($img);
     }
 });
+<<<<<<< HEAD
 $div=$('#groupdiv').clone(true);
+=======
+$clonediv=$('#groupdiv').clone(true);
+>>>>>>> refs/remotes/origin/master
 function uploadPic(){
 	var fileList=[];
    /*  var pic = $('#upload_file')[0].files[0];*/ 

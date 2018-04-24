@@ -30,9 +30,5 @@ public final class UserController {
 			return Result.buildSuccessReslut(user);
 
 	}
-	@RequestMapping(value = "user_test.do", method = RequestMethod.GET)
-	@ResponseBody
-	public Result getUser2(){
-		return Result.buildSuccessReslut(true);
-	}
+
 }
