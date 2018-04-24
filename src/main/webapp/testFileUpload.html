@@ -24,14 +24,14 @@
 			<input type="file" name="uploadFile" id='uploadfile'> 
 				<div id='preview'></div>
 				<input type="button"
-				id='delgroup' value="删除" >
+				id='delgroup' value="del" >
 				
 		</div>
 		<input type="button"
-				id="newgroup" value="新增">
+				id="newgroup" value="new">
 	
 		<input type="button"
-				id="uploadPicButton" value="上传" onclick="uploadPic()">
+				id="uploadPicButton" value="upload" onclick="uploadPic()">
 		</form>
 	</div>
 
@@ -50,11 +50,11 @@ $('#delgroup').click(function(e){
 	 
 	});
 $('#newgroup').click(function(e){
-	$a=$('#groupdiv').clone(true);
+	/* $a=$('#groupdiv').clone(true);
 	$a.find(':file').val('');
 	$a.find('#preview').empty();
-	$a.find('#preview').removeClass();
-    $(this).prev('div').after($a);
+	$a.find('#preview').removeClass(); */
+    $(this).prev('div').after($div.clone(true));
     divCnt+=1;
   
 });
@@ -72,6 +72,7 @@ $("[name='uploadFile']").change(function(e){
     	$div.empty().append($img);
     }
 });
+$div=$('#groupdiv').clone(true);
 function uploadPic(){
 	var fileList=[];
    /*  var pic = $('#upload_file')[0].files[0];*/ 
@@ -85,13 +86,13 @@ function uploadPic(){
     $.ajax({
     	url:'hello/upload.action',
         type:"post",
-        // Form数据
+        // Form锟斤拷锟斤拷
         data: fd,
         cache: false,
         contentType: false,
         processData: false,
         success:function(data){
-            alert("成功");
+            alert("锟缴癸拷");
         }
     });
                     
