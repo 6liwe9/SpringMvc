@@ -1,4 +1,4 @@
-package com.shidao.web.shidao.resttest;
+package com.miwo.controller.test;
 
 import static org.junit.Assert.*;
 
@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.shidao.web.vo.UserVO;
 
 public class UserTest {
 
@@ -22,11 +21,6 @@ public class UserTest {
 	@Test
 	public void testAddUser() {
 		String url="http://localhost:8080/user/registeUser";
-		UserVO user=new UserVO();
-		user.setuAge(12);
-		user.setuLoginName("13032286690");
-		user.setuPassword("123");
-		System.out.println(HttpClientMain.httpPost(url, user));
 	}
 
 }

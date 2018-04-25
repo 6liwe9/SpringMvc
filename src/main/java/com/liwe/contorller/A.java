@@ -1,4 +1,4 @@
-package test.liwe.contorller;
+package com.liwe.contorller;
 
 public class A {
 	public String a;

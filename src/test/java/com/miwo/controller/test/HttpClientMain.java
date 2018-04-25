@@ -1,4 +1,4 @@
-package com.shidao.web.shidao.resttest;
+package com.miwo.controller.test;
 
 import java.io.BufferedReader;
 import java.io.IOException;

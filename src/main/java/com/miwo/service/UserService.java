@@ -27,7 +27,7 @@ public class UserService {
 		List<User> userl=userMapper.selectByExample(example);
 		if(userl.size()==0) {
 			userMapper.insert(user);
-			return userMapper.countByExample(new UserExample())+1;
+			return userMapper.countByExample(new UserExample());
 		}else
 			return userl.get(0).getUserId().longValue();
 		
