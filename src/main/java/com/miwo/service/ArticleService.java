@@ -61,5 +61,13 @@ public class ArticleService {
 		}else 
 			return null;
 	}
+	public List<Article> getArticles(List<Long> articleIds) {
+		// TODO Auto-generated method stub
+		List<Article> ret=new ArrayList<Article>();
+		for(Long id:articleIds) {
+			ret.add(articleMapper.selectByPrimaryKey(id));
+		}
+		return ret;
+	}
 	
 }

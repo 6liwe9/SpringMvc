@@ -18,12 +18,12 @@ public final class UserController {
 	@RequestMapping(value="user_login.do",method= RequestMethod.POST)
 	@ResponseBody
 	public  Result userLogin(User user)  {
-		return Result.buildSuccessReslut(userService.login(user)); 
+		return Result.buildSuccessReslut(userService.login(user)+""); 
 	}
 	@RequestMapping(value = "user_get.do", method = RequestMethod.GET)
 	@ResponseBody
-	public Result getUser(long userId){
-		User user=userService.getUser(userId);
+	public Result getUser(String userId){
+		User user=userService.getUser(new Long(userId));
 		if(user==null) {
 			return Result.buildFailReslut(null);
 		}else

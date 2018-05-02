@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.miwo.model.Article;
 import com.miwo.service.ArticleService;
 import com.miwo.service.PicService;
+import com.miwo.service.TakeawayService;
 import com.miwo.utils.Result;
 
 @Controller
@@ -20,16 +21,30 @@ import com.miwo.utils.Result;
 public final class ArticleController {
 	@Autowired
 	ArticleService articleService;
+	@Autowired
+	TakeawayService takeawayService;
 	@RequestMapping(value = "addTakeArticle.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Result addArticle(Article article,@RequestParam("pics") List<String> picIds)  {
-		return Result.buildSuccessReslut(articleService.saveArticle(picIds, article)+"");
+	public Result addArticle(Article article,@RequestParam("pics") List<String> picIds,String userId,String type)  {
+		Long articleId=articleService.saveArticle(picIds, article);
+		if(articleId!=-1&&takeawayService.insertTakeAway(articleId,new Long(userId), type))
+			return Result.buildSuccessReslut(articleId+"");
+		else
+			return Result.buildFailReslut(null);
+		
 		
 	}
 	@RequestMapping(value = "getArticle.do", method = RequestMethod.GET)
 	@ResponseBody
 	public Result getArticle(@RequestParam("articleId") String articleId)  {
 		return Result.buildSuccessReslut(articleService.getArticle(new Long(articleId)));
+		
+	}
+	@RequestMapping(value = "getTakeArticle.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Result getTakeArticle(String type,String userId,int start,int limit)  {
+		List<Long> articleIds=takeawayService.getTakeAway(userId, type, start, limit);
+		return Result.buildSuccessReslut(articleService.getArticles(articleIds));
 		
 	}
 }
