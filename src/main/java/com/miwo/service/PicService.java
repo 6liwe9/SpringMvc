@@ -1,6 +1,7 @@
 package com.miwo.service;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,21 +23,22 @@ public class PicService {
 	String urlPrefix;
 	@Autowired
 	PicMapper picMapper;
-	public List<Long> savePic(List<MultipartFile> picList, String url) {
-		List<Long> ret=new ArrayList<Long>();
-		for (MultipartFile file : picList) {
+	public Long savePic(MultipartFile file, String url) {
 			// 如果文件不为空，写入上传路径
 			if (!file.isEmpty()) {
 			try {
 				// 上传文件名
-				String filename = file.getOriginalFilename();
-				File filepath = new File(path, filename);
+				Date now=new Date();
+				String originalName=file.getOriginalFilename();
+				String filename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(now)+originalName.substring(originalName.lastIndexOf('.'));
+				String subPath=new SimpleDateFormat("yyyyMMdd").format(now);
+				File filepath = new File(path+File.separator+subPath, filename);
 				// 判断路径是否存在，如果不存在就创建一个
 				if (!filepath.getParentFile().exists()) {
 					filepath.getParentFile().mkdirs();
 				}
 				// 将上传文件保存到一个目标文件当中
-				String picPath=path + File.separator + filename;
+				String picPath=path+File.separator+subPath +File.separator+ filename;
 				file.transferTo(new File(picPath));
 				Pic pic=new Pic();
 				Long picId=IDGenerator.getid();
@@ -44,16 +46,16 @@ public class PicService {
 				pic.setAddTime(new Date());
 				pic.setPicPath(path);
 				pic.setPicName(filename);
-				pic.setPicUrl(url+File.separator+urlPrefix+File.separator+filename);
+				pic.setPicUrl(url+'/'+urlPrefix+'/'+subPath+'/'+filename);
 				if(picMapper.insert(pic)==1) {
-					ret.add(picId);
+					return picId;
 				}
 				}catch(Exception e) {
-					
+					return -1l;
 				}
 			}
-		}
-		return ret;
+			return -1l;
+	
 	}
 	
 }
