@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.miwo.model.Article;
 import com.miwo.service.ArticleService;
 import com.miwo.service.PicService;
+import com.miwo.service.SaleService;
 import com.miwo.service.TakeawayService;
 import com.miwo.utils.Result;
 
@@ -23,6 +24,8 @@ public final class ArticleController {
 	ArticleService articleService;
 	@Autowired
 	TakeawayService takeawayService;
+	@Autowired
+	SaleService saleService;
 	@RequestMapping(value = "addTakeArticle.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Result addArticle(Article article,@RequestParam("pics") List<String> picIds,String userId,String type)  {
@@ -44,6 +47,13 @@ public final class ArticleController {
 	@ResponseBody
 	public Result getTakeArticle(String type,String userId,int start,int limit)  {
 		List<Long> articleIds=takeawayService.getTakeAway(userId, type, start, limit);
+		return Result.buildSuccessReslut(articleService.getArticles(articleIds));
+		
+	}
+	@RequestMapping(value = "getSaleArticle.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Result getSaleArticle()  {
+		List<Long> articleIds=saleService.getSaleItem();
 		return Result.buildSuccessReslut(articleService.getArticles(articleIds));
 		
 	}
