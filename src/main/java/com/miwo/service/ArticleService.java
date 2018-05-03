@@ -10,10 +10,15 @@ import org.springframework.stereotype.Service;
 import com.miwo.dao.ArticleMapper;
 import com.miwo.dao.ArticlePicMapper;
 import com.miwo.dao.PicMapper;
+import com.miwo.dao.TakeawayMapper;
+import com.miwo.dao.UserMapper;
 import com.miwo.model.Article;
 import com.miwo.model.ArticlePic;
 import com.miwo.model.ArticlePicExample;
 import com.miwo.model.Pic;
+import com.miwo.model.Takeaway;
+import com.miwo.model.TakeawayExample;
+import com.miwo.model.User;
 import com.miwo.utils.IDGenerator;
 
 
@@ -25,6 +30,10 @@ public class ArticleService {
 	ArticlePicMapper articlePicMapper;
 	@Autowired
 	PicMapper picMapper;
+	@Autowired
+	TakeawayMapper takeMapper;
+	@Autowired
+	UserMapper userMapper;
 	public Long saveArticle(List<String>pics,Article article) {
 		Long id=IDGenerator.getid();
 		article.setArticleId(id);
@@ -44,6 +53,7 @@ public class ArticleService {
 		Article article =articleMapper.selectByPrimaryKey(articleId);
 		if(article!=null) {
 			Map<String,Object> ret=new HashMap<String,Object>();
+			ret.put("articleId", article.getArticleId().toString());
 			ret.put("articleTitle", article.getArticleTitle());
 			ret.put("articleContent", article.getArticleContent());
 			ArticlePicExample example=new ArticlePicExample();
@@ -61,13 +71,25 @@ public class ArticleService {
 		}else 
 			return null;
 	}
-	public List<Article> getArticles(List<Long> articleIds) {
+	public List getArticles(List<Long> articleIds) {
 		// TODO Auto-generated method stub
-		List<Article> ret=new ArrayList<Article>();
+		List<Object> ret=new ArrayList<Object>();
 		for(Long id:articleIds) {
-			ret.add(articleMapper.selectByPrimaryKey(id));
-		}
+			TakeawayExample example=new TakeawayExample();
+			example.createCriteria().andArticleIdEqualTo(id);
+			List<Takeaway> takelist=takeMapper.selectByExample(example);
+			if(takelist.size()!=1) {
+				continue;
+			}
+			User user=userMapper.selectByPrimaryKey(takelist.get(0).getUserId());
+			Map article=getArticle(id);
+			article.put("user", user);
+			ret.add(article);
+			}
 		return ret;
 	}
-	
+	public boolean delArticle(Long articleId) {
+		// TODO Auto-generated method stub
+		return articleMapper.deleteByPrimaryKey(articleId)==1;
+	}
 }

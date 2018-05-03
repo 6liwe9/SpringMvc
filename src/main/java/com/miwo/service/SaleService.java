@@ -18,7 +18,7 @@ import com.miwo.model.TakeawayExample.Criteria;
 public class SaleService {
 	@Autowired
 	SaleMapper saleMapper;
-	public boolean insertTakeAway(Long articleId) {
+	public boolean insertSale(Long articleId) {
 		Sale sale=new Sale();
 		sale.setArticleId(articleId);
 		return saleMapper.insert(sale)==1;

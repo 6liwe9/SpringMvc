@@ -22,7 +22,7 @@ public class TakeawayService {
 		take.setUserId(userId);
 		return takeMapper.insert(take)==1;
 	}
-	public List<Long> getTakeAway(String userId,String type,int start,int limit){
+	public List<Long> getTakeAway(String userId,String type,Integer start,Integer limit){
 		TakeawayExample example=new TakeawayExample();
 		Criteria criteria = example.createCriteria();
 		if(type!=null&&type!="")
@@ -30,11 +30,16 @@ public class TakeawayService {
 		if(userId!=null&&userId!="")
 			criteria.andUserIdEqualTo(new Long(userId));
 		List<Takeaway> retList=takeMapper.selectByExample(example);
-		retList=retList.subList(start, limit);
+		//retList=retList.subList(start, limit);
 		List<Long>ret =new ArrayList<Long>();
 		for(Takeaway t:retList) {
 			ret.add(t.getArticleId());
 		}
 		return ret;
+	}
+	public boolean delTakeAway(Long articleId) {
+		TakeawayExample example = new TakeawayExample();
+		example.createCriteria().andArticleIdEqualTo(articleId);
+		return takeMapper.deleteByExample(example)==1;
 	}
 }
