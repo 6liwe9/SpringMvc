@@ -76,7 +76,7 @@ public final class ArticleController {
 	@ResponseBody
 	public Result getSaleArticle()  {
 		List<Long> articleIds=saleService.getSaleItem();
-		return Result.buildSuccessReslut(articleService.getArticles(articleIds));
+		return Result.buildSuccessReslut(articleService.getSaleArticles(articleIds));
 		
 	}
 }

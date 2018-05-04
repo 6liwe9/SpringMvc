@@ -31,6 +31,8 @@ public class ArticleService {
 	@Autowired
 	PicMapper picMapper;
 	@Autowired
+	PicService picService;
+	@Autowired
 	TakeawayMapper takeMapper;
 	@Autowired
 	UserMapper userMapper;
@@ -88,8 +90,25 @@ public class ArticleService {
 			}
 		return ret;
 	}
+	public List getSaleArticles(List<Long> articleIds) {
+		// TODO Auto-generated method stub
+		List<Object> ret=new ArrayList<Object>();
+		for(Long id:articleIds) {
+			Map article=getArticle(id);
+			ret.add(article);
+			}
+		return ret;
+	}
 	public boolean delArticle(Long articleId) {
 		// TODO Auto-generated method stub
+		
+		ArticlePicExample example=new ArticlePicExample();
+		example.createCriteria().andArticleIdEqualTo(articleId);
+		List<ArticlePic> pics = articlePicMapper.selectByExample(example);
+		for(ArticlePic pic :pics) {
+			if(!picService.delPic(pic.getPicId()))
+				return false;
+		}
 		return articleMapper.deleteByPrimaryKey(articleId)==1;
 	}
 }

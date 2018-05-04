@@ -57,5 +57,15 @@ public class PicService {
 			return -1l;
 	
 	}
+	public boolean delPic(Long picId) {
+		return picMapper.deleteByPrimaryKey(picId)==1;
+	}
+	public String getUrlFromId(Long picId) {
+		Pic p= picMapper.selectByPrimaryKey(picId);
+		if(p!=null)
+			return p.getPicUrl();
+		else
+			return "";
+	}
 	
 }

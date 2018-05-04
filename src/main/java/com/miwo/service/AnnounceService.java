@@ -20,6 +20,8 @@ public class AnnounceService {
 	@Autowired
 	AnnouncementMapper announceMapper;
 	@Autowired
+	ArticleService articleService;
+	@Autowired
 	PicMapper picMapper;
 	public boolean saveAnnounce(Long cover, Long articleId, String announceText) {
 		// TODO Auto-generated method stub
@@ -40,10 +42,20 @@ public class AnnounceService {
 				Map<String,Object> announce=new HashMap<String,Object>();
 				announce.put("text", a.getAnnounceText());
 				announce.put("cover", pic.getPicUrl());
-				announce.put("articleid", a.getAnnounceId());
+				announce.put("articleid", a.getArticleId().toString());
 				ret.add(announce);
 			}
 		}
 		return ret;
+	}
+	public Boolean deleteAnnounce() {
+		// TODO Auto-generated method stub
+		AnnouncementExample example=new AnnouncementExample() ;
+		List<Announcement> tmp=announceMapper.selectByExample(example);
+		for(Announcement announce:tmp) {
+			if(!articleService.delArticle(announce.getArticleId()))
+				return false;
+		}
+		return announceMapper.deleteByExample(example)==tmp.size();
 	}
 }
