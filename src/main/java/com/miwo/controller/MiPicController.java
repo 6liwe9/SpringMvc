@@ -39,4 +39,26 @@ public final class MiPicController {
 	public Result getRandomMiPic(String type,int cnt)  {
 		return Result.buildSuccessReslut(miPicService.getMiPic(type,cnt));
 	}
+	@RequestMapping(value = "getPics.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Result getMiPicByPage(String type,int page,int size)  {
+		return Result.buildSuccessReslut(miPicService.getMiPicByPage(type,page,size));
+	}
+	@RequestMapping(value = "getYesterdayPics.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Result getYesterdayMiPic(int page,int size)  {
+		return Result.buildSuccessReslut(miPicService.getYesterdayMiPic(page,size));
+	}
+	@RequestMapping(value = "getPicsByUser.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Result getMiPicByUser(String userId)  {
+		return Result.buildSuccessReslut(miPicService.getMiPicByUser(userId));
+	}
+	@RequestMapping(value = "delPics.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Result delPic(String picId)  {
+		if(miPicService.delPic(picId))
+			return Result.buildSuccessReslut(null);
+		return Result.buildFailReslut(null);
+	}
 }
