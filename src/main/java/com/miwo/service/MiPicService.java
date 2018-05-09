@@ -91,7 +91,7 @@ public class MiPicService {
 		return ret.subList(0, cnt);
 	}
 
-	public boolean valuePic(String picId, Long hate, Long like) {
+	public boolean valuePic(String picId, Boolean like) {
 		// TODO Auto-generated method stu
 		MiPicExample example=new MiPicExample();
 		example.createCriteria().andPicIdEqualTo(new Long(picId));
@@ -99,8 +99,10 @@ public class MiPicService {
 		if(pics.size()!=1)
 			return false;
 		MiPic record=pics.get(0);
-		record.setThumbUp(like);
-		record.setThumbDown(hate);
+		if(like)
+			record.setThumbUp(record.getThumbUp()+1);
+		else
+			record.setThumbDown(record.getThumbDown()+1);
 		return miPicMapper.updateByExample(record, example)==1;
 	}
 	public Object getMiPicByUser(String userId) {

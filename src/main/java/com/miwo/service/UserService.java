@@ -25,6 +25,8 @@ public class UserService {
 
 		UserExample example = new UserExample();
 		Criteria criteria = example.createCriteria();
+		if(user.getOpenId().equals("null"))
+			return null;
 		criteria.andOpenIdEqualTo(user.getOpenId());
 		List<User> userl = userMapper.selectByExample(example);
 		if (userl.size() == 0) {

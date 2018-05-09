@@ -28,8 +28,8 @@ public final class MiPicController {
 	}
 	@RequestMapping(value = "valueMiPic.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Result valueMiPic(String picId,Long hate,Long like)  {
-		if(miPicService.valuePic(picId,hate,like))
+	public Result valueMiPic(String picId,Boolean like)  {
+		if(miPicService.valuePic(picId,like))
 			return Result.buildSuccessReslut(null);
 		else
 			return Result.buildFailReslut(null);

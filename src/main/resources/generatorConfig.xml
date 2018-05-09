@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry location="D:\mysql-connector-java-5.1.45.jar" />
+	<context id="context1">
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost/miwo" userId="root"
+			password="zhi02031">
+		</jdbcConnection>
+		
+       <javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- 生成model类 -->
+		<javaModelGenerator targetPackage="com.miwo.model"
+			targetProject="C:\Users\liwez\eclipse-workspace\springmvc\src\main\java\">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- 生成mapper xml文件 -->
+		<sqlMapGenerator targetPackage="mybatis.mapper"
+			targetProject="C:\Users\liwez\eclipse-workspace\springmvc\src\main\resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.miwo.dao" targetProject="C:\Users\liwez\eclipse-workspace\springmvc\src\main\java\">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+<!-- 
+		<table tableName="user" domainObjectName="User"></table>
+		<table tableName="inherit" domainObjectName="Inherit"></table>
+		<table tableName="article" domainObjectName="Article"></table>
+		<table tableName="article_pic" domainObjectName="ArticlePic"></table>
+		<table tableName="notice" domainObjectName="Notice"></table>
+		<table tableName="pic" domainObjectName="Pic"></table>
+		<table tableName="sale" domainObjectName="Sale"></table> 
+		<table tableName="takeaway" domainObjectName="Takeaway"></table>
+		<table tableName="advice" domainObjectName="Advice"></table>
+		<table tableName="announcement" domainObjectName="Announcement"></table>
+		<table tableName="mi_pic" domainObjectName="MiPic"></table>-->
+		<table tableName="map" domainObjectName="MyMap"></table>
+	</context>
+</generatorConfiguration>  

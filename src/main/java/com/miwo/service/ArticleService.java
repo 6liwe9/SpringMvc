@@ -85,7 +85,12 @@ public class ArticleService {
 			}
 			User user=userMapper.selectByPrimaryKey(takelist.get(0).getUserId());
 			Map article=getArticle(id);
-			article.put("user", user);
+			Map usermap=new HashMap<String,Object>();
+			usermap.put("avatarUrl", user.getAvatarUrl());
+			usermap.put("nickname", user.getNickname());
+			usermap.put("openId", user.getOpenId());
+			usermap.put("userId", user.getUserId().toString());
+			article.put("user", usermap);
 			ret.add(article);
 			}
 		return ret;

@@ -3,6 +3,8 @@ package com.miwo.dao;
 import com.miwo.model.Takeaway;
 import com.miwo.model.TakeawayExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface TakeawayMapper {
@@ -93,4 +95,6 @@ public interface TakeawayMapper {
      * @mbg.generated Wed May 02 17:30:49 CST 2018
      */
     int updateByPrimaryKey(Takeaway record);
+
+	List<Takeaway> selectByPage(Map<String, Object> param);
 }

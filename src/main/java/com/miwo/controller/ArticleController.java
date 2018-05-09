@@ -54,8 +54,8 @@ public final class ArticleController {
 	}
 	@RequestMapping(value = "getTakeArticle.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Result getTakeArticle(String type,String userId,Integer start,Integer limit)  {
-		List<Long> articleIds=takeawayService.getTakeAway(userId, type, start, limit);
+	public Result getTakeArticle(String type,String userId,Integer page,Integer size)  {
+		List<Long> articleIds=takeawayService.getTakeAway(userId, type, page, size);
 		return Result.buildSuccessReslut(articleService.getArticles(articleIds));
 		
 	}
