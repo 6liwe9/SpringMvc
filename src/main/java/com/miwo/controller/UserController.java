@@ -18,7 +18,21 @@ public final class UserController {
 	@RequestMapping(value="user_login.do",method= RequestMethod.POST)
 	@ResponseBody
 	public  Result userLogin(User user)  {
-		return Result.buildSuccessReslut(userService.login(user)+""); 
+		Long uId=userService.login(user);
+		if(uId!=null)
+			return Result.buildSuccessReslut(uId.toString());
+		else
+			return Result.buildFailReslut(null);
+	}
+	@RequestMapping(value="code2id.do",method= RequestMethod.GET)
+	@ResponseBody
+	public  Result code2id(String js_code,String appid,String secret,String grant_type)  {
+		Object openid=userService.code2id(js_code,appid,secret,grant_type);
+		if(openid!=null) {
+			return Result.buildSuccessReslut(openid.toString());
+		}else {
+			return Result.buildFailReslut(null);
+		}
 	}
 	@RequestMapping(value = "user_get.do", method = RequestMethod.GET)
 	@ResponseBody
@@ -28,6 +42,16 @@ public final class UserController {
 			return Result.buildFailReslut(null);
 		}else
 			return Result.buildSuccessReslut(user);
+
+	}
+	@RequestMapping(value = "user_update.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Result updateUser(User user){
+	
+		if(!userService.updateUser(user)) {
+			return Result.buildFailReslut(null);
+		}else
+			return Result.buildSuccessReslut(null);
 
 	}
 
